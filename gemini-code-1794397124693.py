@@ -20,7 +20,10 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from PIL import Image
-from roboflow import Roboflow
+try:
+    from roboflow import Roboflow
+except ImportError:
+    Roboflow = None
 from ultralytics import YOLO
 
 # =============================================================================
