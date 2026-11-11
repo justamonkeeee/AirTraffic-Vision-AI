@@ -9,7 +9,7 @@ SkyMetrics AI: מערכת ניתוח תנועה אווירית וזיהוי עו
 4. Interactive Web Application (Streamlit Dashboard)
 ===============================================================================
 """
-
+import streamlit as st
 import os
 import sys
 import glob
@@ -279,8 +279,6 @@ def run_streamlit_dashboard():
     """
     מפעיל דשבורד אינטראקטיבי מלא ב-Streamlit עבור המשתמש.
     """
-    import streamlit as st
-
     st.set_page_config(page_title="SkyMetrics AI Control Center", page_icon="🛫", layout="wide")
 
     st.title("🛫 SkyMetrics AI: מערכת לניתוח תנועה אווירית וזיהוי עומסים")
@@ -295,7 +293,13 @@ def run_streamlit_dashboard():
 
     @st.cache_resource
     def load_streamlit_model(weights_name):
-        return YOLO(weights_name if weights_name != "Custom Trained Weights" else "yolov8n.pt")
+        if weights_name == "Custom Trained Weights":
+            if os.path.exists("runs/detect/airtraffic_yolo_run/weights/best.pt"):
+                return YOLO("runs/detect/airtraffic_yolo_run/weights/best.pt")
+            else:
+                st.sidebar.warning("קובץ המשקלים המותאם לא נמצא, טוען מודל ברירת מחדל.")
+                return YOLO("yolov8n.pt")
+        return YOLO(weights_name)
 
     model = load_streamlit_model(model_type)
 
