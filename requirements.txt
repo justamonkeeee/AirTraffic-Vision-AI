@@ -4,6 +4,7 @@ torchvision
 streamlit
 ultralytics
 roboflow
+python-dotenv
 opencv-python-headless
 matplotlib
 pandas
