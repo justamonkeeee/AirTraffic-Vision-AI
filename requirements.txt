@@ -1,0 +1,8 @@
+streamlit
+ultralytics
+roboflow
+opencv-python-headless
+matplotlib
+pandas
+torch
+pillow
