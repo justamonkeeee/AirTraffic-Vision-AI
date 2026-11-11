@@ -349,3 +349,15 @@ if __name__ == "__main__":
         print("2. להרצת אימון קוד / ניתוח נתונים ישיר:")
         print("   חברו את ה-Roboflow API Key והפעילו את המחלקות בקובץ זה.")
         print("=================================================================")
+
+
+@st.cache_resource
+def load_streamlit_model(weights_name):
+    # במידה והמשתמש בוחר Custom Trained Weights אך הקובץ אינו בשרת, נטען ברירת מחדל
+    if weights_name == "Custom Trained Weights":
+        if os.path.exists("runs/detect/airtraffic_yolo_run/weights/best.pt"):
+            return YOLO("runs/detect/airtraffic_yolo_run/weights/best.pt")
+        else:
+            st.sidebar.warning("קובץ המשקלים המותאם לא נמצא, טוען מודל ברירת מחדל.")
+            return YOLO("yolov8n.pt")
+    return YOLO(weights_name)
